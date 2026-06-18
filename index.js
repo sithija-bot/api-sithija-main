@@ -22,34 +22,6 @@ app.get('/pinterest', async (req, res) => {
     }
 });
 
-app.get('/download-apk', async (req, res) => {
-    // URL එකෙන් text query එක (ඇප් එකේ නම) ගන්නවා
-    const query = req.query.text;
-    if (!query) {
-        return res.json({ success: false, message: "කරුණාකර ඇප් එකේ නම (text) ලබාදෙන්න!" });
-    }
-
-    try {
-        // ඔයා දීපු APK Download API එකට request එක යවනවා
-        const response = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(query)}`);
-        
-        // API එකෙන් සාර්ථකව data ලැබුනොත් ඒ ටික response එක විදිහට යවනවා
-        if (response.data && response.data.success) {
-            res.json({ 
-                success: true, 
-                result: response.data.result // API එකෙන් එන download ලින්ක් සහ විස්තර
-            });
-        } else {
-            res.json({ 
-                success: false, 
-                message: response.data.message || "ඒ නමින් APK එකක් සොයාගත නොහැකි විය." 
-            });
-        }
-    } catch (e) {
-        // මොකක් හරි error එකක් ආවොත් ඒක handle කරනවා
-        res.json({ success: false, message: e.message });
-    }
-});
 
 app.listen(PORT, () => console.log(`API Active on port ${PORT}`));
 
